@@ -3,7 +3,7 @@
     <div>
       <logo />
       <h1 class="title">
-        {{ $prismic.asText(document.data.headline) }}
+        {{ $prismic.asText(document.data.title) }}
       </h1>
       <h2 class="subtitle">
         My kickass Nuxt.js project
@@ -19,10 +19,9 @@
         >
           GitHub
         </a>
-        <nuxt-link to="/about" class="button--green">
-          About
-        </nuxt-link>
       </div>
+      <br />
+      <img :src="document.data.image.url" alt="linus" />
     </div>
   </div>
 </template>
@@ -31,7 +30,7 @@
 import Logo from '~/components/Logo.vue'
 
 function getPage(prismic) {
-  return prismic.api.getByUID('home', 'home')
+  return prismic.api.getByUID('about', 'about')
 }
 
 export default {
@@ -88,5 +87,9 @@ export default {
 
 .links {
   padding-top: 15px;
+}
+
+img {
+  max-width: 100px;
 }
 </style>
