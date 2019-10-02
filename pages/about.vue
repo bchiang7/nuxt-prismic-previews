@@ -29,9 +29,9 @@
 <script>
 import Logo from '~/components/Logo.vue'
 
-// function getPage(prismic) {
-//   return prismic.api.getByUID('about', 'about')
-// }
+function getPage(prismic) {
+  return prismic.api.getByUID('about', 'about')
+}
 
 export default {
   components: {
@@ -39,8 +39,8 @@ export default {
   },
 
   async asyncData({ app, error }) {
-    const document = await app.$prismic.api.getByUID('about', 'about')
-    // const document = await getPage(app.$prismic)
+    // const document = await app.$prismic.api.getByUID('about', 'about')
+    const document = await getPage(app.$prismic)
 
     if (document) {
       return { document }
@@ -50,9 +50,9 @@ export default {
   },
 
   created() {
-    // getPage(this.$prismic).then((document) => {
-    //   this.document = document
-    // })
+    getPage(this.$prismic).then((document) => {
+      this.document = document
+    })
   }
 }
 </script>
