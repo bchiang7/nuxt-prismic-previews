@@ -1,9 +1,14 @@
 <template>
   <div class="container">
+    <prismic-edit-button :document-id="documentId" />
+
     <div>
       <logo />
-      <h1 class="title">
+      <!-- <h1 class="title">
         {{ $prismic.asText(document.data.headline) }}
+      </h1> -->
+      <h1 class="title">
+        {{ $prismic.richTextAsPlain(document.headline) }}
       </h1>
       <h2 class="subtitle">
         My kickass Nuxt.js project
@@ -28,33 +33,55 @@
 </template>
 
 <script>
+import Prismic from 'prismic-javascript'
+import PrismicConfig from '~/prismic.config.js'
 import Logo from '~/components/Logo.vue'
 
-function getPage(prismic) {
-  return prismic.api.getByUID('home', 'home')
-}
+// function getPage(prismic) {
+//   return prismic.api.getByUID('home', 'home')
+// }
 
 export default {
   components: {
     Logo
   },
 
-  async asyncData({ app, error }) {
-    // const document = await app.$prismic.api.getByUID('home', 'home')
-    const document = await getPage(app.$prismic)
+  // async asyncData({ app, error }) {
+  //   // const document = await app.$prismic.api.getByUID('home', 'home')
+  //   const document = await getPage(app.$prismic)
 
-    if (document) {
-      return { document }
-    } else {
+  //   if (document) {
+  //     return { document }
+  //   } else {
+  //     error({ statusCode: 404, message: 'Page not found' })
+  //   }
+  // },
+
+  async asyncData({ context, error, req }) {
+    try {
+      const api = await Prismic.getApi(PrismicConfig.apiEndpoint, { req })
+
+      let document = {}
+      const result = await api.getByUID('home', 'home')
+      document = result.data
+
+      // Load the edit button
+      if (process.client) window.prismic.setupEditButton()
+
+      return {
+        document,
+        documentId: result.id
+      }
+    } catch (e) {
       error({ statusCode: 404, message: 'Page not found' })
     }
-  },
-
-  created() {
-    getPage(this.$prismic).then((document) => {
-      this.document = document
-    })
   }
+
+  // created() {
+  //   getPage(this.$prismic).then((document) => {
+  //     this.document = document
+  //   })
+  // }
 }
 </script>
 

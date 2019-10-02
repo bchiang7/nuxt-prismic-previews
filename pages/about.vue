@@ -1,9 +1,14 @@
 <template>
   <div class="container">
+    <prismic-edit-button :document-id="documentId" />
+
     <div>
       <logo />
-      <h1 class="title">
+      <!-- <h1 class="title">
         {{ $prismic.asText(document.data.title) }}
+      </h1> -->
+      <h1 class="title">
+        {{ $prismic.richTextAsPlain(document.title) }}
       </h1>
       <h2 class="subtitle">
         My kickass Nuxt.js project
@@ -19,40 +24,78 @@
         >
           GitHub
         </a>
+        <nuxt-link to="/" class="button--green">
+          Home
+        </nuxt-link>
       </div>
       <br />
-      <img :src="document.data.image.url" alt="linus" />
+      <!-- <img :src="document.data.image.url" alt="linus" /> -->
     </div>
   </div>
 </template>
 
 <script>
+import Prismic from 'prismic-javascript'
+import PrismicConfig from '~/prismic.config.js'
 import Logo from '~/components/Logo.vue'
 
-function getPage(prismic) {
-  return prismic.api.getByUID('about', 'about')
+async function getPage(api, type, uid) {
+  const result = await api.getByUID(type, uid)
+  return result
 }
 
 export default {
   components: {
     Logo
   },
+  // async asyncData({ app, error }) {
+  //   // const document = await app.$prismic.api.getByUID('about', 'about')
+  //   const document = await getPage(app.$prismic)
+  //   if (document) {
+  //     return { document }
+  //   } else {
+  //     error({ statusCode: 404, message: 'Page not found' })
+  //   }
+  // },
 
-  async asyncData({ app, error }) {
-    // const document = await app.$prismic.api.getByUID('about', 'about')
-    const document = await getPage(app.$prismic)
+  async asyncData(context) {
+    const { req, error } = context
 
-    if (document) {
-      return { document }
-    } else {
+    try {
+      const api = await Prismic.getApi(PrismicConfig.apiEndpoint, { req })
+
+      // const result = await api.getByUID('about', 'about')
+      const result = await getPage(api, 'about', 'about')
+      const document = result.data
+
+      // Load the edit button
+      if (process.client) window.prismic.setupEditButton()
+
+      return {
+        document,
+        documentId: result.id
+      }
+    } catch (e) {
       error({ statusCode: 404, message: 'Page not found' })
     }
   },
 
   created() {
-    getPage(this.$prismic).then((document) => {
+    this.getPageAgain()
+  },
+
+  methods: {
+    async getPageAgain() {
+      const api = await Prismic.getApi(PrismicConfig.apiEndpoint)
+      const result = await getPage(api, 'about', 'about')
+      const document = result.data
       this.document = document
-    })
+      this.documentId = result.id
+
+      // getPage(api, 'about', 'about').then((document) => {
+      //   this.document = { document }
+      // })
+    }
   }
 }
 </script>
