@@ -1,6 +1,6 @@
 # prismic-nuxt-spike
 
-> My kickass Nuxt.js project
+[![Netlify Status](https://api.netlify.com/api/v1/badges/67a06a8e-ec9c-4dcc-bfeb-3c0794cda8fa/deploy-status)](https://app.netlify.com/sites/prismic-nuxt-spike/deploys)
 
 ## Build Setup
 
