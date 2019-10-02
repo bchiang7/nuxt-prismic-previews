@@ -1,6 +1,6 @@
 <template>
   <div>
-    Preview
+    <p>Loading Prismic's Preview...</p>
   </div>
 </template>
 
