@@ -42,6 +42,10 @@ export default {
     '~/plugins/html-serializer.js',
     '~/plugins/prismic-vue.js'
   ],
+  // https://nuxtjs.org/guide/routing#middleware
+  router: {
+    middleware: 'preview'
+  },
   /*
    ** Nuxt.js dev-modules
    */
