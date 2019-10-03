@@ -5,7 +5,6 @@ import PrismicConfig from '~/prismic.config.js'
 import LinkResolver from '~/plugins/link-resolver.js'
 
 export default async function(context) {
-  console.warn('PREVIEW MIDDLEWARE')
   const api = await Prismic.getApi(PrismicConfig.apiEndpoint)
 
   // Universal keys

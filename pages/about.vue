@@ -63,11 +63,13 @@ export default {
   },
 
   created() {
-    // this.getPageAgain()
+    this.getPageAgain()
   },
 
   methods: {
     async getPageAgain() {
+      // eslint-disable-next-line
+      console.warn('getting the page again')
       const api = await Prismic.getApi(PrismicConfig.apiEndpoint)
       const result = await getPage(api, 'about', 'about')
       const document = result.data
