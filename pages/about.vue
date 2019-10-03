@@ -4,15 +4,9 @@
 
     <div>
       <logo />
-      <!-- <h1 class="title">
-        {{ $prismic.asText(document.data.title) }}
-      </h1> -->
       <h1 class="title">
         {{ $prismic.richTextAsPlain(document.title) }}
       </h1>
-      <h2 class="subtitle">
-        My kickass Nuxt.js project
-      </h2>
       <div class="links">
         <a href="https://nuxtjs.org/" target="_blank" class="button--green">
           Documentation
@@ -39,32 +33,20 @@ import Prismic from 'prismic-javascript'
 import PrismicConfig from '~/prismic.config.js'
 import Logo from '~/components/Logo.vue'
 
-async function getPage(api, type, uid) {
-  const result = await api.getByUID(type, uid)
-  return result
+function getPage(api, type, uid) {
+  return api.getByUID(type, uid)
 }
 
 export default {
   components: {
     Logo
   },
-  // async asyncData({ app, error }) {
-  //   // const document = await app.$prismic.api.getByUID('about', 'about')
-  //   const document = await getPage(app.$prismic)
-  //   if (document) {
-  //     return { document }
-  //   } else {
-  //     error({ statusCode: 404, message: 'Page not found' })
-  //   }
-  // },
 
   async asyncData(context) {
     const { req, error } = context
 
     try {
       const api = await Prismic.getApi(PrismicConfig.apiEndpoint, { req })
-
-      // const result = await api.getByUID('about', 'about')
       const result = await getPage(api, 'about', 'about')
       const document = result.data
 
@@ -81,7 +63,7 @@ export default {
   },
 
   created() {
-    this.getPageAgain()
+    // this.getPageAgain()
   },
 
   methods: {
@@ -91,10 +73,6 @@ export default {
       const document = result.data
       this.document = document
       this.documentId = result.id
-
-      // getPage(api, 'about', 'about').then((document) => {
-      //   this.document = { document }
-      // })
     }
   }
 }

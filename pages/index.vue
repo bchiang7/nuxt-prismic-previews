@@ -4,15 +4,9 @@
 
     <div>
       <logo />
-      <!-- <h1 class="title">
-        {{ $prismic.asText(document.data.headline) }}
-      </h1> -->
       <h1 class="title">
         {{ $prismic.richTextAsPlain(document.headline) }}
       </h1>
-      <h2 class="subtitle">
-        My kickass Nuxt.js project
-      </h2>
       <div class="links">
         <a href="https://nuxtjs.org/" target="_blank" class="button--green">
           Documentation
@@ -37,33 +31,20 @@ import Prismic from 'prismic-javascript'
 import PrismicConfig from '~/prismic.config.js'
 import Logo from '~/components/Logo.vue'
 
-// function getPage(prismic) {
-//   return prismic.api.getByUID('home', 'home')
-// }
+function getPage(api, type, uid) {
+  return api.getByUID(type, uid)
+}
 
 export default {
   components: {
     Logo
   },
 
-  // async asyncData({ app, error }) {
-  //   // const document = await app.$prismic.api.getByUID('home', 'home')
-  //   const document = await getPage(app.$prismic)
-
-  //   if (document) {
-  //     return { document }
-  //   } else {
-  //     error({ statusCode: 404, message: 'Page not found' })
-  //   }
-  // },
-
   async asyncData({ context, error, req }) {
     try {
       const api = await Prismic.getApi(PrismicConfig.apiEndpoint, { req })
-
-      let document = {}
-      const result = await api.getByUID('home', 'home')
-      document = result.data
+      const result = await getPage(api, 'home', 'home')
+      const document = result.data
 
       // Load the edit button
       if (process.client) window.prismic.setupEditButton()
@@ -75,13 +56,21 @@ export default {
     } catch (e) {
       error({ statusCode: 404, message: 'Page not found' })
     }
-  }
+  },
 
-  // created() {
-  //   getPage(this.$prismic).then((document) => {
-  //     this.document = document
-  //   })
-  // }
+  created() {
+    // this.getPageAgain()
+  },
+
+  methods: {
+    async getPageAgain() {
+      const api = await Prismic.getApi(PrismicConfig.apiEndpoint)
+      const result = await getPage(api, 'home', 'home')
+      const document = result.data
+      this.document = document
+      this.documentId = result.id
+    }
+  }
 }
 </script>
 
