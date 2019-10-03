@@ -40,7 +40,7 @@ export default {
     Logo
   },
 
-  async asyncData({ context, error, req }) {
+  async asyncData({ app, context, error, req }) {
     try {
       const api = await Prismic.getApi(PrismicConfig.apiEndpoint, { req })
       const result = await getPage(api, 'home', 'home')
@@ -64,8 +64,6 @@ export default {
 
   methods: {
     async getPageAgain() {
-      // eslint-disable-next-line
-      console.warn('getting the page again')
       const api = await Prismic.getApi(PrismicConfig.apiEndpoint)
       const result = await getPage(api, 'home', 'home')
       const document = result.data
