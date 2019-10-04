@@ -27,12 +27,13 @@
 </template>
 
 <script>
-import Prismic from 'prismic-javascript'
-import PrismicConfig from '~/prismic.config.js'
+import { getApi } from '~/utils'
+import onCreate from '~/mixins/onCreate'
 import Logo from '~/components/Logo.vue'
 
-function getPage(api, type, uid) {
-  return api.getByUID(type, uid)
+async function getPage() {
+  const api = await getApi()
+  return api.getByUID('home', 'home')
 }
 
 export default {
@@ -40,17 +41,24 @@ export default {
     Logo
   },
 
+  mixins: [onCreate],
+
+  data() {
+    return {
+      document: null,
+      documentId: null
+    }
+  },
+
   async asyncData({ app, context, error, req }) {
     try {
-      const api = await Prismic.getApi(PrismicConfig.apiEndpoint, { req })
-      const result = await getPage(api, 'home', 'home')
-      const document = result.data
+      const result = await getPage()
 
       // Load the edit button
       if (process.client) window.prismic.setupEditButton()
 
       return {
-        document,
+        document: result.data,
         documentId: result.id
       }
     } catch (e) {
@@ -58,16 +66,10 @@ export default {
     }
   },
 
-  created() {
-    this.getPageAgain()
-  },
-
   methods: {
-    async getPageAgain() {
-      const api = await Prismic.getApi(PrismicConfig.apiEndpoint)
-      const result = await getPage(api, 'home', 'home')
-      const document = result.data
-      this.document = document
+    async refetchPageForPreview() {
+      const result = await getPage()
+      this.document = result.data
       this.documentId = result.id
     }
   }
