@@ -56,18 +56,7 @@ export default {
   /*
    ** Nuxt.js modules
    */
-  modules: [
-    // [
-    //   'prismic-nuxt',
-    //   {
-    //     endpoint: 'https://bchiang7.cdn.prismic.io/api/v2',
-    //     linkResolver(doc, ctx) {
-    //       return '/'
-    //     },
-    //     htmlSerializer(type, element, content, children) {}
-    //   }
-    // ]
-  ],
+  modules: [],
   /*
    ** Build configuration
    */

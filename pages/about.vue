@@ -47,7 +47,7 @@ export default {
 
   async asyncData({ app, context, error, req }) {
     try {
-      const result = await getPage()
+      const result = await getPage({ req })
 
       // Load the edit button
       if (process.client) window.prismic.setupEditButton()

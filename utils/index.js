@@ -1,6 +1,7 @@
 import Prismic from 'prismic-javascript'
 import PrismicConfig from '~/prismic.config.js'
 
-const getApi = () => Prismic.getApi(PrismicConfig.apiEndpoint)
+const getApi = (options = {}) =>
+  Prismic.getApi(PrismicConfig.apiEndpoint, options)
 
 export { getApi }
