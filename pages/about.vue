@@ -1,13 +1,12 @@
 <template>
   <div class="container">
+    <prismic-edit-button :document-id="documentId" />
+
     <div>
       <logo />
       <h1 class="title">
-        {{ $prismic.asText(document.data.title) }}
+        {{ $prismic.richTextAsPlain(document.title) }}
       </h1>
-      <h2 class="subtitle">
-        My kickass Nuxt.js project
-      </h2>
       <div class="links">
         <a href="https://nuxtjs.org/" target="_blank" class="button--green">
           Documentation
@@ -19,18 +18,24 @@
         >
           GitHub
         </a>
+        <nuxt-link to="/" class="button--green">
+          Home
+        </nuxt-link>
       </div>
       <br />
-      <img :src="document.data.image.url" alt="linus" />
+      <!-- <img :src="document.data.image.url" alt="linus" /> -->
     </div>
   </div>
 </template>
 
 <script>
+import { getApi } from '~/utils'
+import onCreate from '~/mixins/onCreate'
 import Logo from '~/components/Logo.vue'
 
-function getPage(prismic) {
-  return prismic.api.getByUID('about', 'about')
+async function getPage() {
+  const api = await getApi()
+  return api.getByUID('about', 'about')
 }
 
 export default {
@@ -38,21 +43,30 @@ export default {
     Logo
   },
 
-  async asyncData({ app, error }) {
-    // const document = await app.$prismic.api.getByUID('about', 'about')
-    const document = await getPage(app.$prismic)
+  mixins: [onCreate],
 
-    if (document) {
-      return { document }
-    } else {
+  async asyncData({ app, context, error, req }) {
+    try {
+      const result = await getPage({ req })
+
+      // Load the edit button
+      if (process.client) window.prismic.setupEditButton()
+
+      return {
+        document: result.data,
+        documentId: result.id
+      }
+    } catch (e) {
       error({ statusCode: 404, message: 'Page not found' })
     }
   },
 
-  created() {
-    getPage(this.$prismic).then((document) => {
-      this.document = document
-    })
+  methods: {
+    async refetchPageForPreview() {
+      const result = await getPage()
+      this.document = result.data
+      this.documentId = result.id
+    }
   }
 }
 </script>
@@ -87,9 +101,5 @@ export default {
 
 .links {
   padding-top: 15px;
-}
-
-img {
-  max-width: 100px;
 }
 </style>

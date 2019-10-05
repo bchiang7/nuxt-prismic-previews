@@ -1,24 +1,20 @@
 <template>
   <div>
-    <p>Loading Prismic's Preview...</p>
+    <p>Loading Prismic Preview...</p>
   </div>
 </template>
 
 <script>
-import LinkResolver from '@/plugins/link-resolver'
+import { getApi } from '~/utils'
+import LinkResolver from '~/plugins/link-resolver.js'
 
 export default {
   name: 'Preview',
 
-  async asyncData({ app, query, redirect }) {
+  async asyncData({ query, redirect }) {
     const previewToken = query.token
-
-    const url = await app.$prismic.api.previewSession(
-      previewToken,
-      LinkResolver,
-      '/'
-    )
-
+    const api = await getApi()
+    const url = await api.previewSession(previewToken, LinkResolver, '/')
     redirect(url)
   }
 }

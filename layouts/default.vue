@@ -52,4 +52,19 @@ html {
   color: #fff;
   background-color: #35495e;
 }
+
+.wio-link {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 48px;
+  height: 48px;
+  border-radius: 24px;
+  background-color: #fafafa;
+  box-shadow: 0 2px 7px 0 rgba(90, 90, 140, 0.4);
+  z-index: 99999;
+}
 </style>
