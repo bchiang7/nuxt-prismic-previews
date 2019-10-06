@@ -1,5 +1,4 @@
-// eslint-disable-next-line
-const PrismicConfig = require('./prismic.config');
+import PrismicConfig from './prismic.config';
 
 export default {
   mode: 'universal',
