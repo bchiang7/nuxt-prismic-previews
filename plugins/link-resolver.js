@@ -1,14 +1,14 @@
 const LinkResolver = (doc, ctx) => {
   if (doc.isBroken) {
-    return '/404'
+    return '/404';
   }
   if (doc.type === 'home') {
-    return '/'
+    return '/';
   }
   if (doc.type === 'about') {
-    return '/about'
+    return '/about';
   }
-  return '/404'
-}
+  return '/404';
+};
 
-export default LinkResolver
+export default LinkResolver;

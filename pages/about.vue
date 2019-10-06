@@ -8,7 +8,11 @@
         {{ $prismic.richTextAsPlain(document.title) }}
       </h1>
       <div class="links">
-        <a href="https://nuxtjs.org/" target="_blank" class="button--green">
+        <a
+          href="https://nuxtjs.org/"
+          target="_blank"
+          class="button--green"
+        >
           Documentation
         </a>
         <a
@@ -22,53 +26,53 @@
           Home
         </nuxt-link>
       </div>
-      <br />
+      <br>
       <!-- <img :src="document.data.image.url" alt="linus" /> -->
     </div>
   </div>
 </template>
 
 <script>
-import { getApi } from '~/utils'
-import onCreate from '~/mixins/onCreate'
-import Logo from '~/components/Logo.vue'
+import { getApi } from '~/utils';
+import onCreate from '~/mixins/onCreate';
+import Logo from '~/components/Logo.vue';
 
 async function getPage() {
-  const api = await getApi()
-  return api.getByUID('about', 'about')
+  const api = await getApi();
+  return api.getByUID('about', 'about');
 }
 
 export default {
   components: {
-    Logo
+    Logo,
   },
 
   mixins: [onCreate],
 
   async asyncData({ app, context, error, req }) {
     try {
-      const result = await getPage({ req })
+      const result = await getPage({ req });
 
       // Load the edit button
-      if (process.client) window.prismic.setupEditButton()
+      if (process.client) {window.prismic.setupEditButton();};
 
       return {
         document: result.data,
-        documentId: result.id
-      }
+        documentId: result.id,
+      };
     } catch (e) {
-      error({ statusCode: 404, message: 'Page not found' })
+      error({ statusCode: 404, message: 'Page not found' });
     }
   },
 
   methods: {
     async refetchPageForPreview() {
-      const result = await getPage()
-      this.document = result.data
-      this.documentId = result.id
-    }
-  }
-}
+      const result = await getPage();
+      this.document = result.data;
+      this.documentId = result.id;
+    },
+  },
+};
 </script>
 
 <style>

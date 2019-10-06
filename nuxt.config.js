@@ -1,5 +1,5 @@
 // eslint-disable-next-line
-const PrismicConfig = require('./prismic.config')
+const PrismicConfig = require('./prismic.config');
 
 export default {
   mode: 'universal',
@@ -14,17 +14,17 @@ export default {
       {
         hid: 'description',
         name: 'description',
-        content: process.env.npm_package_description || ''
-      }
+        content: process.env.npm_package_description || '',
+      },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     script: [
       {
-        innerHTML: `{ window.prismic = { endpoint: "${PrismicConfig.apiEndpoint}"} }`
+        innerHTML: `{ window.prismic = { endpoint: "${PrismicConfig.apiEndpoint}"} }`,
       },
-      { src: '//static.cdn.prismic.io/prismic.min.js' }
+      { src: '//static.cdn.prismic.io/prismic.min.js' },
     ],
-    __dangerouslyDisableSanitizers: ['script']
+    __dangerouslyDisableSanitizers: ['script'],
   },
   /*
    ** Customize the progress-bar color
@@ -40,18 +40,18 @@ export default {
   plugins: [
     '~/plugins/link-resolver.js',
     '~/plugins/html-serializer.js',
-    '~/plugins/prismic-vue.js'
+    '~/plugins/prismic-vue.js',
   ],
   // https://nuxtjs.org/guide/routing#middleware
   router: {
-    middleware: 'preview'
+    middleware: 'preview',
   },
   /*
    ** Nuxt.js dev-modules
    */
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
-    '@nuxtjs/eslint-module'
+    '@nuxtjs/eslint-module',
   ],
   /*
    ** Nuxt.js modules
@@ -65,7 +65,7 @@ export default {
      ** You can extend webpack config here
      */
     extend(config, ctx) {
-      config.resolve.alias.vue = 'vue/dist/vue.common'
-    }
-  }
-}
+      config.resolve.alias.vue = 'vue/dist/vue.common';
+    },
+  },
+};

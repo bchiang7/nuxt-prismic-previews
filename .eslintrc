@@ -1,0 +1,10 @@
+{
+  "extends": [
+    "@nuxtjs",
+    "prettier",
+    "prettier/vue",
+    "plugin:nuxt/recommended",
+    "@upstatement/eslint-config/vue"
+  ],
+  "plugins": ["prettier"]
+}

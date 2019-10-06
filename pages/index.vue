@@ -8,7 +8,11 @@
         {{ $prismic.richTextAsPlain(document.headline) }}
       </h1>
       <div class="links">
-        <a href="https://nuxtjs.org/" target="_blank" class="button--green">
+        <a
+          href="https://nuxtjs.org/"
+          target="_blank"
+          class="button--green"
+        >
           Documentation
         </a>
         <a
@@ -27,18 +31,18 @@
 </template>
 
 <script>
-import { getApi } from '~/utils'
-import onCreate from '~/mixins/onCreate'
-import Logo from '~/components/Logo.vue'
+import { getApi } from '~/utils';
+import onCreate from '~/mixins/onCreate';
+import Logo from '~/components/Logo.vue';
 
 async function getPage() {
-  const api = await getApi()
-  return api.getByUID('home', 'home')
+  const api = await getApi();
+  return api.getByUID('home', 'home');
 }
 
 export default {
   components: {
-    Logo
+    Logo,
   },
 
   mixins: [onCreate],
@@ -46,34 +50,36 @@ export default {
   data() {
     return {
       document: null,
-      documentId: null
-    }
+      documentId: null,
+    };
   },
 
   async asyncData({ app, context, error, req }) {
     try {
-      const result = await getPage({ req })
+      const result = await getPage({ req });
 
       // Load the edit button
-      if (process.client) window.prismic.setupEditButton()
+      if (process.client) {
+        window.prismic.setupEditButton();
+      }
 
       return {
         document: result.data,
-        documentId: result.id
-      }
+        documentId: result.id,
+      };
     } catch (e) {
-      error({ statusCode: 404, message: 'Page not found' })
+      error({ statusCode: 404, message: 'Page not found' });
     }
   },
 
   methods: {
     async refetchPageForPreview() {
-      const result = await getPage()
-      this.document = result.data
-      this.documentId = result.id
-    }
-  }
-}
+      const result = await getPage();
+      this.document = result.data;
+      this.documentId = result.id;
+    },
+  },
+};
 </script>
 
 <style>
@@ -87,8 +93,8 @@ export default {
 }
 
 .title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
   display: block;
   font-weight: 300;
   font-size: 100px;

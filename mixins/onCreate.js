@@ -1,5 +1,5 @@
 export default {
   created() {
-    this.refetchPageForPreview()
-  }
-}
+    this.refetchPageForPreview();
+  },
+};
