@@ -3,7 +3,7 @@ import { getApi } from '~/utils';
 import LinkResolver from '~/plugins/link-resolver.js';
 
 export default async function(context) {
-  const { route, query, redirect } = context;
+  const { route, query, redirect, res } = context;
   const api = await getApi();
 
   // Preview support
@@ -22,7 +22,7 @@ export default async function(context) {
 
       if (process.server) {
         // Server-side
-        context.res.setHeader('Set-Cookie', [cookie]);
+        res.setHeader('Set-Cookie', [cookie]);
       } else {
         // Client-side
         document.cookie = cookie;

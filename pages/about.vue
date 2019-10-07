@@ -69,7 +69,6 @@ export default {
     async refetchPageForPreview() {
       const result = await getPage();
       this.document = result.data;
-      this.documentId = result.id;
     },
   },
 };
