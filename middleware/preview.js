@@ -11,26 +11,26 @@ export default async function(context) {
   if (route.path === '/preview') {
     const { token } = query;
 
-    if (!token) {
+    if (token) {
+      const url = await api.previewSession(token, LinkResolver, '/');
+
+      const cookie = [
+        `${Prismic.previewCookie}=${token}`,
+        `max-age=${30 * 60 * 1000}`,
+        'path=/',
+      ].join('; ');
+
+      if (process.server) {
+        // Server-side
+        context.res.setHeader('Set-Cookie', [cookie]);
+      } else {
+        // Client-side
+        document.cookie = cookie;
+      }
+
+      redirect(302, url);
+    } else {
       redirect(302, '/');
     }
-
-    const url = await api.previewSession(token, LinkResolver, '/');
-
-    const cookie = [
-      `${Prismic.previewCookie}=${token}`,
-      `max-age=${30 * 60 * 1000}`,
-      'path=/',
-    ].join('; ');
-
-    if (process.server) {
-      // Server-side
-      context.res.setHeader('Set-Cookie', [cookie]);
-    } else {
-      // Client-side
-      document.cookie = cookie;
-    }
-
-    redirect(302, url);
   }
 }
