@@ -32,7 +32,7 @@
 
 <script>
 import { getApi } from '~/utils';
-import onCreate from '~/mixins/onCreate';
+import { preview } from '~/mixins';
 import Logo from '~/components/Logo.vue';
 
 async function getPage(options = {}) {
@@ -45,7 +45,7 @@ export default {
     Logo,
   },
 
-  mixins: [onCreate],
+  mixins: [preview],
 
   data() {
     return {
