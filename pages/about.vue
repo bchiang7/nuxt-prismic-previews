@@ -37,8 +37,8 @@ import { getApi } from '~/utils';
 import onCreate from '~/mixins/onCreate';
 import Logo from '~/components/Logo.vue';
 
-async function getPage() {
-  const api = await getApi();
+async function getPage(options = {}) {
+  const api = await getApi(options);
   return api.getByUID('about', 'about');
 }
 
