@@ -23,7 +23,7 @@ npm run generate
 
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
 
-## Getting Prismic previews to work with a static Nuxt site (i.e. hosted on Netlify)
+## Getting Prismic Previews to work with a static Nuxt site (i.e. hosted on Netlify)
 
 1. Spin up a new Nuxt project with [`create-nuxt-app`](https://nuxtjs.org/guide/installation#using-code-create-nuxt-app-code-)
 
@@ -82,9 +82,9 @@ For detailed explanation on how things work, check out [Nuxt.js docs](https://nu
     }
     ```
 
-7. Fetching content with a static site
+7. Hack to fetch preview content with a static site
 
-   Nuxt.js won't automatically run the `asyncData` function again to get fresh data so the easiest thing is to the use the `created` lifecycle hook to force the page to get the most up to date content from Prismic when in preiview mode
+   Since Nuxt won't automatically run the `asyncData` function again to fetch the data you want to preview, we have to use the `created` lifecycle hook to force the page to get preview content from Prismic instead of the actual published content.
 
     ```js
     // pages/mypage.vue
