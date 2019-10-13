@@ -111,10 +111,18 @@ For detailed explanation on how things work, check out [Nuxt.js docs](https://nu
         }
       },
 
+      created() {
+        this.refetchPageforPreview();
+      },
+
       methods: {
         async refetchPageForPreview() {
-          const result = await getPage();
-          this.document = result.data;
+          try {
+            const result = await getPage();
+            this.document = result.data;
+          } catch (e) {
+            error({ statusCode: 404, message: 'Page not found' });
+          }
         },
       },
     };
